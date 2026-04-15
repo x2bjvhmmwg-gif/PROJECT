@@ -1,0 +1,131 @@
+/* 챗봇 열기/닫기 버튼 */
+.chat-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  background: var(--accent-mint);
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(32, 201, 151, 0.3);
+  z-index: 1000;
+  transition: transform 0.2s;
+}
+
+.chat-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* 채팅창 메인 */
+.chat-window {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 350px;
+  height: 500px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 채팅창 헤더 */
+.chat-header {
+  background: var(--primary-mint);
+  padding: 15px 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--secondary-mint);
+}
+
+/* 메시지 영역 */
+.chat-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #fafdfc;
+}
+
+.message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 15px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.message.user {
+  align-self: flex-end;
+  background: var(--accent-mint);
+  color: white;
+  border-bottom-right-radius: 2px;
+}
+
+.message.ai {
+  align-self: flex-start;
+  background: #eee;
+  color: var(--text-main);
+  border-bottom-left-radius: 2px;
+}
+
+/* 입력 영역 */
+.chat-input-area {
+  padding: 15px;
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid #eee;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+.chat-input-area input:focus {
+  border-color: var(--accent-mint);
+}
+
+.send-btn {
+  background: var(--accent-mint);
+  color: white;
+  border: none;
+  padding: 0 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 타이핑 애니메이션 (생략 가능) */
+.typing .dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: #aaa;
+  border-radius: 50%;
+  margin-right: 3px;
+  animation: wave 1.3s infinite;
+}
+@keyframes wave {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-5px); }
+}
