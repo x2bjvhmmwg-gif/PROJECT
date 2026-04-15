@@ -27,3 +27,9 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
+      - name: nginx stert
+        working-directory: ./frontend
+        run: docker run -d -p 80:80 -v ./build:/usr/share/nginx/html --name web nginx:1.28
+
+
+
