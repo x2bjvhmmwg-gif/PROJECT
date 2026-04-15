@@ -10,7 +10,8 @@ app = FastAPI(title="AI Board Agent API")
 # React 프론트엔드와 통신하기 위한 CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173","http://localhost:80",
+                   "http://aiedu.tplinkdns.com","http://aiedu.tplinkdns.com:6060"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
