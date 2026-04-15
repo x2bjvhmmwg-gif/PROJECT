@@ -8,6 +8,7 @@ services:
       - "8001:8000"
     volumes:
       - ./backend:/workspace
+      - backend_venv:/workspace/.venv
     environment:
       - OLLAMA_BASE_URL=http://192.168.0.106:11434
       - MARIADB_USER=${MARIADB_USER}
@@ -27,3 +28,6 @@ services:
       - ./frontend/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - backend
+
+  volumes:
+  backend_venv:
