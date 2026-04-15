@@ -14,3 +14,8 @@ jobs:
       #   run: $PSVersionTable
       - name: Check repository
         uses: actions/checkout@v3
+
+      - name: Check Node.js version
+        run: node -v
+
+
