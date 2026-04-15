@@ -12,6 +12,7 @@ jobs:
     steps:
       # - name: Check PowerShell
       #   run: $PSVersionTable
+
       - name: Check repository
         uses: actions/checkout@v3
 
@@ -19,5 +20,6 @@ jobs:
       #   run: node -v
 
       - name: npm install
+        working-directory: ./frontend
         run: npm i
 
