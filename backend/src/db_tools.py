@@ -32,18 +32,47 @@ def get_board_list(page: int = 1, size: int = 10) -> str:
     }, ensure_ascii=False, default=str)
 
 @tool
-def update_board_post(post_id: int, title: str = None, content: str = None, author: str = None) -> str:
-    """작성자 이름도 수정 가능하도록 대응합니다."""
-    if not any([title, content, author]): return "수정할 내용이 없습니다."
-    
+def update_board_post(
+    post_id: int, 
+    title: str = None, 
+    content: str = None, 
+    author: str = None, 
+    category: str = None, 
+    link: str = None
+) -> str:
+    """
+    기존 게시글의 정보를 수정합니다. 수정할 글의 ID(post_id)가 반드시 필요합니다.
+    제목, 내용, 작성자뿐만 아니라 카테고리(category)와 원문 링크(link)도 수정할 수 있습니다.
+    """
+    if not any([title, content, author, category, link]):
+        return "수정할 내용이 인자로 전달되지 않았습니다."
     updates, params = [], []
-    if title: updates.append("title = %s"); params.append(title)
-    if content: updates.append("content = %s"); params.append(content)
-    if author: updates.append("author = %s"); params.append(author)
-    
+    # 2. 동적 쿼리 생성 (전달된 값만 SQL에 포함)
+    if title: 
+        updates.append("title = %s")
+        params.append(title)
+    if content: 
+        updates.append("content = %s")
+        params.append(content)
+    if author: 
+        updates.append("author = %s")
+        params.append(author)
+    if category: 
+        updates.append("category = %s")
+        params.append(category)
+    if link: 
+        updates.append("link = %s")
+        params.append(link)
+    # 3. WHERE 절을 위한 ID 추가
     params.append(post_id)
+    # 4. 최종 SQL 조립
     sql = f"UPDATE board SET {', '.join(updates)} WHERE id = %s AND is_deleted = 0"
-    return f"✅ {post_id}번 수정 완료" if save(sql, tuple(params)) else "❌ 수정 실패"
+    # 5. DB 실행 및 결과 반환
+    success = save(sql, tuple(params))
+    if success:
+        return f"✅ {post_id}번 게시글의 정보({', '.join([k for k in ['제목', '내용', '작성자', '카테고리', '링크'] if locals().get(['title','content','author','category','link'][['제목', '내용', '작성자', '카테고리', '링크'].index(k)])])})가 성공적으로 수정되었습니다."
+    else:
+        return f"❌ {post_id}번 게시글 수정에 실패했습니다. ID를 확인해 주세요."
 
 @tool
 def delete_board_post(post_id: int) -> str:
