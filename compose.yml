@@ -29,5 +29,5 @@ services:
     depends_on:
       - backend
 
-  volumes:
+volumes:
   backend_venv:
