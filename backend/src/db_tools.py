@@ -1,6 +1,8 @@
 from db import save, findAll, findOne
+from langchain_core.tools import tool
 import json
 
+@tool
 def create_board_post(title: str, content: str, author: str, category: str = "기타", link: str = None) -> str:
     """
     새로운 게시물을 생성합니다. 작성자(author) 정보가 반드시 필요합니다.
@@ -9,6 +11,7 @@ def create_board_post(title: str, content: str, author: str, category: str = "�
     success = save(sql, (title, content, author, category, link))
     return f"✅ [{category}] 게시물이 생성되었습니다." if success else "❌ 생성 실패"
 
+@tool
 def get_board_list(page: int = 1, size: int = 10) -> str:
     """작성자를 포함한 목록을 가져옵니다."""
     offset = (page - 1) * size
@@ -28,6 +31,7 @@ def get_board_list(page: int = 1, size: int = 10) -> str:
         "size": size
     }, ensure_ascii=False, default=str)
 
+@tool
 def update_board_post(post_id: int, title: str = None, content: str = None, author: str = None) -> str:
     """작성자 이름도 수정 가능하도록 대응합니다."""
     if not any([title, content, author]): return "수정할 내용이 없습니다."
@@ -41,6 +45,7 @@ def update_board_post(post_id: int, title: str = None, content: str = None, auth
     sql = f"UPDATE board SET {', '.join(updates)} WHERE id = %s AND is_deleted = 0"
     return f"✅ {post_id}번 수정 완료" if save(sql, tuple(params)) else "❌ 수정 실패"
 
+@tool
 def delete_board_post(post_id: int) -> str:
     """
     게시물을 논리적으로 삭제합니다 (is_deleted 필드를 1로 변경).
@@ -50,6 +55,7 @@ def delete_board_post(post_id: int) -> str:
     success = save(sql, (post_id,))
     return f"✅ {post_id}번 게시물이 삭제 처리되었습니다." if success else "❌ 삭제에 실패했습니다."
 
+@tool
 def read_board_post(post_id: int) -> str:
     """상세 조회 시 작성자 정보를 포함합니다."""
     sql = f"SELECT * FROM board WHERE id = {post_id} AND is_deleted = 0"

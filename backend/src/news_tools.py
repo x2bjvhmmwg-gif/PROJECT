@@ -1,7 +1,9 @@
 import requests
 import json
 from settings import settings
+from langchain_core.tools import tool
 
+@tool
 def get_latest_news(query: str) -> str:
     """
     네이버 뉴스 API를 통해 최신 뉴스를 검색합니다.
